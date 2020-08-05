@@ -1,0 +1,25 @@
+---
+name: OpenShift Service Mesh Workshop
+
+modules:
+  activate:
+    - index
+    - lab1.1_welcome
+    - lab1.2_installing
+    - lab1.3_deploymsa
+    - lab2.1_userprofile
+    - lab2.2_deployuserprofile
+    - lab2.3_kiali
+    - lab3.1_featureupdate
+    - lab3.2_grafana
+    - lab3.3_jaeger
+    - lab4.1_routingtraffic
+    - lab4.2_trafficsplitting
+    - lab4.3_faultinjection
+    - lab4.4_circuitbreaking
+    - lab5.1_intromtls
+    - lab5.2_verifymtls
+    - lab5.3_prep
+    - lab5.4_authpolicy
+    - lab5.5_secureingressegress
+    - fin
