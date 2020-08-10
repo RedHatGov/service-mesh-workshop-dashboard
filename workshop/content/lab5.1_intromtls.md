@@ -13,15 +13,13 @@ Currently, the services you deployed in earlier labs are secured from access by 
 </blockquote>
 
 ```execute
-oc run curl-boards-1 -i --restart=Never --image=appropriate/curl --timeout=10s -- boards:8080/shareditems
+curl http://boards.$PROJECT_NAME:8080/shareditems
 ```
 
 This job executes a direct HTTP curl request for the current shared boards list. It'll print out something similar to this:
 
 ```json
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[
+[
   {
     "_id": "5e5d75b33396fe0043f63e5c",
     "owner": "anonymous",
@@ -40,7 +38,6 @@ This job executes a direct HTTP curl request for the current shared boards list.
     "id": "x5ORoJu8",
     "created_at": "2020-03-02T21:08:06+00:00"
   }
-100   423  100   423    0     0  23500      0 --:--:-- --:--:-- --:--:-- 23500
 ]
 ```
 
@@ -69,6 +66,7 @@ spec:
 <blockquote>
 <i class="fa fa-terminal"></i> First we apply the policy with the following command:
 </blockquote>
+
 ```execute
 sed "s|microservices-demo|$PROJECT_NAME|" ./istio-configuration/policy-mtls.yaml | oc apply -f -
 ```
@@ -91,6 +89,7 @@ spec:
 <blockquote>
 <i class="fa fa-terminal"></i> Remove existing destination rules:
 </blockquote>
+
 ```execute
 oc delete dr --all
 ```
@@ -99,6 +98,7 @@ oc delete dr --all
 <blockquote>
 <i class="fa fa-terminal"></i> Apply it with the following command:
 </blockquote>
+
 ```execute
 sed "s|microservices-demo|$PROJECT_NAME|" ./istio-configuration/destinationrule-mtls.yaml | oc apply -f -
 ```

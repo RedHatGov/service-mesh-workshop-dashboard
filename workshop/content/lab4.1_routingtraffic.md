@@ -136,7 +136,9 @@ Navigate to the 'Profile' section in the header.
 
 <p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
 
-`echo $GATEWAY_URL`
+```execute
+echo $GATEWAY_URL
+```
 
 There should be no change at this point.  You are routing to version 2 of the user profile service you deployed in an earlier lab, and it is really slow.
 

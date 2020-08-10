@@ -41,7 +41,7 @@ Now let's deploy the microservices.
 Deploy the boards service:
 </blockquote>
 
-```
+```execute
 oc new-app -f ./openshift-configuration/boards-fromsource.yaml \
   -p APPLICATION_NAME=boards \
   -p NODEJS_VERSION_TAG=10 \
@@ -148,8 +148,8 @@ To access the application, you need the endpoint of your load balancer.
 <i class="fa fa-terminal"></i>
 Retrieve the URL of the load balancer:
 </blockquote>
-execute
-```
+
+```execute
 GATEWAY_URL=$(oc get route istio-demogateway-$(oc project -q) --template='http://{{.spec.host}}')
 echo $GATEWAY_URL
 ```

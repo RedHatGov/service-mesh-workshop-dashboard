@@ -16,7 +16,7 @@ cat ./openshift-configuration/userprofile-deploy-all.yaml | grep -B 1 sidecar.is
 ```
 
 Output:
-```execute
+```
     annotations:
       sidecar.istio.io/inject: "true"
   --

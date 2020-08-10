@@ -31,16 +31,13 @@ OK, let's try to run that same command again to snoop on traffic. Run the follow
 </blockquote>
 
 ```execute
-oc run curl-boards-2 -i --restart=Never --image=appropriate/curl --timeout=10s -- boards:8080/shareditems
+curl boards.$PROJECT_NAME:8080/shareditems
 ```
 
 You should get an output indicating that the job failed to pull data. This is because the traffic didn't come from a verifiable service known to the mesh and wasn't able to do a secure mTLS token handshake. Your output should look like this:
+
 ```
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 curl: (56) Recv failure: Connection reset by peer
-pod microservices-demo/curl-boards terminated (Error)
 ```
 
 ## Turn off Strict Mode

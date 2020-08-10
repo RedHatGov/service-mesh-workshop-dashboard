@@ -157,17 +157,10 @@ while true; do curl -s -o /dev/null $GATEWAY_URL/profile; done
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Let's inspect the change in Kiali's embedded Jaeger view.
+Let's inspect the trace in Jaeger.
 </blockquote>
 
-<blockquote>
-<i class="fa fa-desktop"></i>
-From the Graph view right click on the userprofile service (the triangle shape). Then click "show traces"
-</blockquote>
-
-
-<img src="images/kiali-userprofile-showtraces.png" width="1024"><br/>
-*Graphed Service - Right Click Menu*
+Open the Jaeger tab, set the Service to `userprofile.%username%`, and click **Find Traces**.
 
 Notice some the traces are about 5s in duration while others are in the millisecond range.
 
