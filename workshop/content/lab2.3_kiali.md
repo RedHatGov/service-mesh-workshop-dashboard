@@ -30,25 +30,24 @@ for ((i=1;i<=100;i++)); do curl -s -o /dev/null $GATEWAY_URL/profile; done
 
 <blockquote>
 <i class="fa fa-terminal"></i>
-Now let's open the Kiali console.  Retrieve the endpoint for Kiali:
+Now let's open the Kiali console.  Retrieve your user token for Kiali:
 </blockquote>
 
 
 ```execute
-KIALI_CONSOLE=$(oc get route kiali -n istio-system --template='https://{{.spec.host}}')
-echo $KIALI_CONSOLE
+oc whoami --show-token
 ```
 
 Output (sample):
 ```
-https://kiali-istio-system.apps.cluster-naa-xxxx.naa-xxxx.example.opentlc.com
+wNitcJFjHP2XwzOseLwFNg1ucLd0jk2jf2VaP9yR99A
 ```
 
 <br>
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Navigate to this URL in the browser.  Login with the same credentials you were provided to access OpenShift.  
+Copy the output and Open the Kiali tab in your dashboard, and 
 </blockquote>
 
 Once logged in, you should be presented with the Kiali console:
@@ -125,8 +124,5 @@ Navigate to the 'Traffic' tab and you should see the inbound and outbound calls 
 *Kiali View of Inbound and Outbound Traffic to App UI*
 
 <br>
-
-Keep the Kiali console opened in a tab in your browser.  You will use Kiali throughout the remainder of the labs.
-
 
 [1]: https://kiali.io

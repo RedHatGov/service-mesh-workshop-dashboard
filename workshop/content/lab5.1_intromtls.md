@@ -13,7 +13,7 @@ Currently, the services you deployed in earlier labs are secured from access by 
 </blockquote>
 
 ```execute
-curl http://boards.$PROJECT_NAME:8080/shareditems
+curl http://boards.$PROJECT_NAME:8080/shareditems | jq
 ```
 
 This job executes a direct HTTP curl request for the current shared boards list. It'll print out something similar to this:

@@ -6,7 +6,10 @@ In the browser, navigate to the 'Profile' section in the header.
 </blockquote>
 
 <p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
-`echo $GATEWAY_URL`
+
+```execute
+echo $GATEWAY_URL
+```
 
 <br>
 
@@ -23,18 +26,16 @@ Your new application is written in Java, whereas the other backend components su
 
 
 <blockquote>
-<i class="fa fa-desktop"></i>
-Navigate to the 'UserProfile' class in your browser:
+<i class="fa fa-terminal"></i>
+Take a look at the "UserProfile" class in your repository:
 </blockquote>
 
-```
-https://github.com/RedHatGov/openshift-microservices/blob/workshop-stable/code/userprofile/src/main/java/org/microservices/demo/json/UserProfile.java
+```execute
+cat ../../code/userprofile/src/main/java/org/microservices/demo/json/UserProfile.java | grep "public UserProfile(String" -A 7
 ```
 
-Output (snippet):
+Output:
 ```java
-...
-    }
     public UserProfile(String id, String firstname, String lastname, String aboutme) {
         this.id = id;
         this.firstName = firstname;
@@ -42,7 +43,6 @@ Output (snippet):
         this.aboutMe = aboutme;
         this.createdAt = Calendar.getInstance().getTime();
     }
-...
 ```
 
 This class encapsulates information about the user such as the first and last name.
@@ -53,23 +53,21 @@ Your application also exposes a REST API to interact with the service.
 
 <blockquote>
 <i class="fa fa-terminal"></i>
-Navigate to the 'UserProfileService' interface in your browser:
+Next, take a look at the "UserProfileService" class:
 </blockquote>
 
-```
-https://github.com/RedHatGov/openshift-microservices/blob/workshop-stable/code/userprofile/src/main/java/org/microservices/demo/service/UserProfileService.java
+```execute
+cat ../../code/userprofile/src/main/java/org/microservices/demo/service/UserProfileService.java | grep "UserProfile getProfile(" -B 5
 ```
 
-Output (snippet):
+Output:
 ```java
-...
     /**
      * return a specific profile
      * @param id
      * @return the specified profile
      */
     UserProfile getProfile(@NotBlank String id);
-...
 ```
 
 This interface includes the REST methods for getting and setting user profile information.
@@ -80,7 +78,7 @@ This interface includes the REST methods for getting and setting user profile in
 
 You are ready to build the application.  
 
-Use a [BuildConfig][1] to build the application image.  A 'BuildConfig' template was already created for you.
+Use a [BuildConfig][1] to build the application image.  A `BuildConfig` template was already created for you.
 
 <blockquote>
 <i class="fa fa-terminal"></i>
@@ -123,16 +121,7 @@ Start the build:
 </blockquote>
 
 ```execute
-oc start-build userprofile-1.0
-```
-
-<blockquote>
-<i class="fa fa-terminal"></i>
-Follow the build:
-</blockquote>
-
-```execute
-oc logs -f bc/userprofile-1.0
+oc start-build userprofile-1.0 -F
 ```
 
 The builder will compile the source code and use the base image to create your deployable image artifact.  You should eventually see a successful build.

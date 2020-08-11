@@ -18,7 +18,7 @@ cat ./istio-configuration/virtual-service-userprofile-503.yaml
 ```
 
 Output (snippet):
-```
+```yaml
 ...
   http:
   - fault:
@@ -60,10 +60,6 @@ Inspect the change in Kiali.
 Navigate to 'Graph' in the left navigation bar. 
 </blockquote>
 
-<p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
-
-`echo $KIALI_CONSOLE`
-
 <blockquote>
 <i class="fa fa-desktop"></i>
 Switch to the 'Versioned app graph' view and change to 'Last 1m'.
@@ -92,7 +88,9 @@ Navigate to the 'Profile' section in the header.
 
 <p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
 
-`echo $GATEWAY_URL`
+```execute
+echo $GATEWAY_URL
+```
 
 <blockquote>
 <i class="fa fa-desktop"></i>
@@ -119,7 +117,7 @@ cat ./istio-configuration/virtual-service-userprofile-delay.yaml
 ```
 
 Output (snippet):
-```
+```yaml
 ...
   http:
   - fault:
@@ -160,7 +158,7 @@ while true; do curl -s -o /dev/null $GATEWAY_URL/profile; done
 Let's inspect the trace in Jaeger.
 </blockquote>
 
-Open the Jaeger tab, set the Service to `userprofile.%username%`, and click **Find Traces**.
+Open the Jaeger tab, set the **Service** to `userprofile.%username%`, and click **Find Traces**.
 
 Notice some the traces are about 5s in duration while others are in the millisecond range.
 

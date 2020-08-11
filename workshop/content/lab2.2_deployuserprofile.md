@@ -104,7 +104,10 @@ Navigate to the 'Profile' section in the header.
 </blockquote>
 
 <p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
-`echo $GATEWAY_URL`
+
+```execute
+echo $GATEWAY_URL
+```
 
 <br>
 

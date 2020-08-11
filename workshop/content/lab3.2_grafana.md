@@ -19,7 +19,7 @@ echo $GRAFANA_CONSOLE
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Navigate to this URL in the browser.  Login with the same credentials you were provided to access OpenShift. 
+Navigate to this URL in a new browser tab.  Login with the same credentials you were provided to access OpenShift. 
 </blockquote>
 
 Once logged in, you should be presented with the Grafana console:

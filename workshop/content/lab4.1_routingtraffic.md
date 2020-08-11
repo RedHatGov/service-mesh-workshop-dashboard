@@ -159,12 +159,8 @@ for ((i=1;i<=5;i++)); do curl -s -o /dev/null $GATEWAY_URL/profile; done
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Navigate to 'Graph' in the left navigation bar.
+In the Kiali tab, navigate to 'Graph' in the left navigation bar.
 </blockquote>
-
-<p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
-
-`echo $KIALI_CONSOLE`
 
 <br>
 

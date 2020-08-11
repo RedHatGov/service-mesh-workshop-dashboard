@@ -31,7 +31,7 @@ OK, let's try to run that same command again to snoop on traffic. Run the follow
 </blockquote>
 
 ```execute
-curl boards.$PROJECT_NAME:8080/shareditems
+curl boards.$PROJECT_NAME:8080/shareditems | jq
 ```
 
 You should get an output indicating that the job failed to pull data. This is because the traffic didn't come from a verifiable service known to the mesh and wasn't able to do a secure mTLS token handshake. Your output should look like this:
@@ -49,7 +49,7 @@ Type the following in the CLI
 </blockquote>
 
 ```execute
-oc delete policy/default
+oc delete policies.authentication.istio.io/default
 oc delete dr --all
 ```
 

@@ -27,7 +27,7 @@ cat openshift-configuration/app-ui-fromsource.yaml | grep -B 1 sidecar.istio.io/
 ```
 
 Output:
-```execute
+```
 	annotations:
 	  sidecar.istio.io/inject: "true"
 ```
@@ -156,7 +156,7 @@ echo $GATEWAY_URL
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Navigate to this URL in the browser.  For example:
+Navigate to this URL in a new browser tab.  For example:
 </blockquote>
 
 ```

@@ -41,7 +41,7 @@ Now let's verify it's working - Run this command to scrape some data:
 </blockquote>
 
 ```execute
-oc run curl-scraper-1 -i --restart=Never --image=appropriate/curl --timeout=30s -- -v context-scraper:8080/scrape/custom_search?term==skynet
+curl context-scraper.$PROJECT_NAME:8080/scrape/custom_search?term==skynet | jq
 ```
 
 We should get an output similar to the one below, with error of ECONNRESET:
@@ -49,32 +49,46 @@ We should get an output similar to the one below, with error of ECONNRESET:
 ```
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 172.30.83.172...
-* TCP_NODELAY set
-* Connected to context-scraper (172.30.83.172) port 8080 (#0)
-> GET /scrape/custom_search?term==skynet HTTP/1.1
-> Host: context-scraper:8080
-> User-Agent: curl/7.59.0
-> Accept: */*
->
-< HTTP/1.1 500 Internal Server Error
-< x-powered-by: Express
-< access-control-allow-origin: *
-< content-type: application/json; charset=utf-8
-< content-length: 682
-< etag: W/"2aa-5GVBTSjlqUqotSZU1yZmOHgTWC0"
-< date: Thu, 07 May 2020 23:02:45 GMT
-< x-envoy-upstream-service-time: 36
-< server: istio-envoy
-< x-envoy-decorator-operation: context-scraper.user3.svc.cluster.local:8080/*
-<
-{ [682 bytes data]
-100   682  100   682    0     0  16634      0 --:--:-- --:--:-- --:--:-- 16634
-* Connection #0 to host context-scraper left intact
-{"oops":{"name":"RequestError","message":"Error: read ECONNRESET","cause":{"errno":"ECONNRESET","code":"ECONNRESET","syscall":"read"},"error":{"errno":"ECONNRESET","code":"ECONNRESET","syscall":"read"},"options":{"method":"GET","uri":"https://www.googleapis.com/customsearch/v1/siterestrict","qs":{"key":"AIzaSyDRdgirA2Pakl4PMi7t-8LFfnnjEFHnbY4","cx":"005627457786250373845:lwanzyzfwji","q":"=skynet"},"headers":{"user-agent":"curl/7.59.0","x-request-id":"d78cf7b9-0010-9ecf-b520-f3d6a83376a0","x-b3-traceid":"21b58b1725b20a81f914496d9a55455d","x-b3-spanid":"f914496d9a55455d","x-b3-sampled":"1"},"json":true,"simple":true,"resolveWithFullResponse":false,"transform2xxOnly":false}}}
+100   682  100   682    0     0  42590      0 --:--:-- --:--:-- --:--:-- 45466
+{
+  "oops": {
+    "name": "RequestError",
+    "message": "Error: read ECONNRESET",
+    "cause": {
+      "errno": "ECONNRESET",
+      "code": "ECONNRESET",
+      "syscall": "read"
+    },
+    "error": {
+      "errno": "ECONNRESET",
+      "code": "ECONNRESET",
+      "syscall": "read"
+    },
+    "options": {
+      "method": "GET",
+      "uri": "https://www.googleapis.com/customsearch/v1/siterestrict",
+      "qs": {
+        "key": "AIzaSyDRdgirA2Pakl4PMi7t-8LFfnnjEFHnbY4",
+        "cx": "005627457786250373845:lwanzyzfwji",
+        "q": "=skynet"
+      },
+      "headers": {
+        "user-agent": "curl/7.29.0",
+        "x-request-id": "07ce0cef-5b07-9ee7-8565-a9705bfd90b1",
+        "x-b3-traceid": "663d4c9ff4336678433857d48c7a8b5b",
+        "x-b3-spanid": "433857d48c7a8b5b",
+        "x-b3-sampled": "1"
+      },
+      "json": true,
+      "simple": true,
+      "resolveWithFullResponse": false,
+      "transform2xxOnly": false
+    }
+  }
+}
 ```
 
-Which is curl (running in a pod in our project) trying to talk to the context-scraper microservice (in the mesh). You can see from the error details that the service is trying to get out to googleapis.com but fails.
+Which is curl trying to talk to the context-scraper microservice (in the mesh). You can see from the error details that the service is trying to get out to googleapis.com but fails.
 
 <br>
 
@@ -122,21 +136,50 @@ oc apply -f ./istio-configuration/serviceentry-googleapis.yaml
 
 <blockquote>
 <i class="fa fa-terminal"></i>
-Run a new curl job to try scrape some data again:
+Try scrape some data again:
 </blockquote>
 
 ```execute
-oc run curl-scraper-2 -i --restart=Never --image=appropriate/curl --timeout=30s -- context-scraper:8080/scrape/custom_search?term==skynet
+curl context-scraper.$PROJECT_NAME:8080/scrape/custom_search?term==skynet | jq
 ```
-
 
 Now we should get an output similar to the one below - showing results:
 
 ```
-custom_search?term==skynet
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[{"link":"https://www.reddit.com/r/movies/comments/1jqo8m/in_the_terminator_franchise_what_does_skynet/","title":"In the Terminator franchise, what does Skynet actually want? : movies","snippet":"Skynet perceived this as an attack and came to the conclusion that all of \nhumanity would attempt to destroy it. To defend itself, Skynet launched nuclear \nmissiles ..."},{"link":"https://www.reddit.com/r/incremental_games/comments/akfdz3/skynet_in_alpha_v2_10min_feedback_welcome/","thumbnail":[{"src":"https://encrypted-tbn1.gstatic.cimages?q=tbn:ANd9GcSq88CbTfa-lnWG4n7Y3xEVP4mD4A66tKWsBRRKJi7uPmPhacMeeVuexYI","width":"310","height":"163"}],"title":"Skynet. In Alpha v2 (~10min). Feedback welcome ...","snippet":"r/incremental_games: This subreddit is for lovers of games that feature an \nincremental mechanism, such as unlocking progressively more powerful …"},{"link":"https://www.reddit.com/r/DeepBrainChain/comments/8rar5b/deepbrain_chain_launches_skynet_project/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4DXYP0zvra6GNCnh0","width":"225","height":"225"}],"title":"DeepBrain Chain Launches ''Skynet Project''— Recruiting AI ...","snippet":"To achieve that, DeepBrain Chain Foundation will activate the ''Skynet Project'' \non June 15th Beijing time and, recruit AI computing power from the globe."},{"link":"https://www.reddit.com/r/OutOfTheLoop/comments/24obct/what_is_skynet_and_why_do_people_reference_it/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4DXYP0zvra6GNCnh0","width":"225","height":"225"}],"title":"What is Skynet and why do people reference it often? : OutOfTheLoop","snippet":"It is a reference to the movie Terminator. Skynet is the fictional computer entity \nwhich becomes self-aware and takes over all other computers it is linked to. Then\n, ..."},{"link":"https://www.reddit.com/r/linux/comments/2vyhr6/apparently_terminator_runs_linux_version/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQSpw8eEnexhK7SlaTQPtFUIqBZYb-Qt5Pa28s8fPAMI4uydC7nmbCc_bU","width":"300","height":"168"}],"title":"Apparently Terminator runs Linux version 4.1.15-1.1381 ...","snippet":"The real question is why skynet bothers making visuals displays for data. \nContinue this thread. level 1. ptrwis. 177 points · 5 years ago. It's systemd, \nevolved and ..."},{"link":"https://www.reddit.com/r/siacoin/comments/elqcyi/taek_teases_skynet_huge_news_in_the_pipeline/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcRcez9TMXJ9S-onsmNDs7ZxIJEdM8hhhneEJgjELCbomsACnBA2ywgnPvo","width":"152","height":"331"}],"title":"Taek teases Skynet - huge news in the pipeline, game-changing ...","snippet":"r/siacoin: Sia is a cryptocurrency engineered to provide industrial grade cloud \nstorage at consumer prices."},{"link":"https://www.reddit.com/r/incremental_games/comments/98oj1p/skynet_in_alpha_5min_feedback_welcome/","thumbnail":[{"src":"https://encrypted-tbn1.gstatic.cimages?q=tbn:ANd9GcSq88CbTfa-lnWG4n7Y3xEVP4mD4A66tKWsBRRKJi7uPmPhacMeeVuexYI","width":"310","height":"163"}],"title":"Skynet. In Alpha (~5min). Feedback welcome : incremental_games","snippet":"r/incremental_games: This subreddit is for lovers of games that feature an \nincremental mechanism, such as unlocking progressively more powerful …"},{"link":"https://www.reddit.com/r/AskScienceFiction/comments/3msulj/terminator_why_doesnt_skynet_use_bio_weapons/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4DXYP0zvra6GNCnh0","width":"225","height":"225"}],"title":"[Terminator] why doesn't skynet use bio weapons? : AskScienceFiction","snippet":"When skynet came online initially it calculated that humanities greatest threat \nwas itself and so it launched our best weapons against Americas most well ..."},{"link":"https://www.reddit.com/r/AskScienceFiction/comments/9yp425/terminator_why_does_skynet_only_send_robots_back/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4DXYP0zvra6GNCnh0","width":"225","height":"225"}],"title":"[Terminator] Why does Skynet only send robots back within one life ...","snippet":"Skynet's existence exists as a mobius strip in time, centered around Judgement \nDay. Judgement Day is inevitable, and nothing can stop it from taking place."},{"link":"https://www.reddit.com/r/AskScienceFiction/comments/7q7766/terminator_why_doesnt_skynet_just_poison_the/","thumbnail":[{"src":"https://encrypted-tbn0.gstatic.cimages?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4DXYP0zvra6GNCnh0","width":"225","height":"225"}],"title":"[Terminator] Why doesn't Skynet just poison the atmosphere if they ...","snippet":"Skynet uses Terminators because, so far as it is concerned100  5049  100  5049    0     0   9350      0 --:--:-- --:--:-- --:--:--  9332e humans. It's goal is to \nfulfill ..
+100  5197  100  5197    0     0    865      0  0:00:06  0:00:06 --:--:--  1157
+[
+  {
+    "link": "https://www.reddit.com/r/DeepBrainChain/comments/8rar5b/deepbrain_chain_launches_skynet_project/",
+    "thumbnail": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrwBIFnOZygv1EKJ1z7TnNeWIfom8Kp0Zgbs6YvM4
+DXYP0zvra6GNCnh0",
+        "width": "225",
+        "height": "225"
+      }
+    ],
+    "title": "DeepBrain Chain Launches ''Skynet Project''— Recruiting AI ...",
+    "snippet": "Nov 29, 2017 ... To achieve that, DeepBrain Chain Foundation will activate the ''Skynet Project
+'' \non June 15th Beijing time and, recruit AI computing power from ..."
+  },
+  {
+    "link": "https://www.reddit.com/r/Terminator/comments/eo6qgf/what_would_happen_if_skynet_wins_would_they_bu
+ild/",
+    "thumbnail": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq6RYcGTf2e6W8pH3h962NB0_0DNTi93EeqEdtktl
+mLoALKvdA1rUY_AU",
+        "width": "132",
+        "height": "92"
+      }
+    ],
+    "title": "What would happen if Skynet wins? Would they build a world for ...",
+    "snippet": "Skynet is an accident and many ways an unstable AI, which makes it different \nfrom the termina
+tors it created. We get a hint of this in TSCC of a second machine\n ..."
+  },
+  ...
 ```
 
 <br>

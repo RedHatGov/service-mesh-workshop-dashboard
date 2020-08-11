@@ -90,10 +90,6 @@ Inspect the change in Kiali.
 Navigate to 'Graph' in the left navigation bar.
 </blockquote>
 
-<p><i class="fa fa-info-circle"></i> If you lost the URL, you can retrieve it via:</p>
-
-`echo $KIALI_CONSOLE`
-
 <blockquote>
 <i class="fa fa-desktop"></i>
 Switch to the 'Versioned app graph' view and change to 'Last 1m'.  Change the 'No edge labels' dropdown to 'Requests percentage'.  

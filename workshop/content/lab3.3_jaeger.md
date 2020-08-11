@@ -7,22 +7,11 @@
 First, let's explore the Jaeger user interface.
 
 <blockquote>
-<i class="fa fa-terminal"></i>
-Open the Jaeger console.  Retrieve the endpoint for Jaeger:
-</blockquote>
-
-```execute
-JAEGER_CONSOLE=$(oc get route jaeger -n istio-system --template='https://{{.spec.host}}')
-echo $JAEGER_CONSOLE
-```
-<p><i class="fa fa-info-circle"></i> Click 'Allow selected permissions' if prompted to authorized access.</p>
-
-<blockquote>
 <i class="fa fa-desktop"></i>
-Navigate to this URL in the browser.  Login with the same credentials you were provided to access OpenShift. 
+Open the Jaeger tab in your dashboard.
 </blockquote>
 
-Once logged in, you should be presented with the Jaeger console:
+You should be presented with the Jaeger console:
 
 <img src="images/jaeger-welcome.png" width="1024"><br/>
 *Jaeger Welcome*
@@ -41,12 +30,9 @@ for ((i=1;i<=100;i++)); do curl -s -o /dev/null $GATEWAY_URL; done
 ```
 
 <br>
-Let's inspect the traces.  
+Let's inspect the traces for your service.  
 
-<blockquote>
-<i class="fa fa-desktop"></i>
-On the left bar under 'Search', select 'app-ui.user#' for 'Service' and 'boards-user#.svc.cluster.local' for 'Operation'.  
-</blockquote>
+On the left bar under **Search**, select `app-ui.%username%` for 'Service' and `boards-%username%.svc.cluster.local` for **Operation**.  
 
 It should look like this:
 
@@ -130,9 +116,9 @@ for ((i=1;i<=5;i++)); do curl -s -o /dev/null $GATEWAY_URL/profile; done
 
 <br>
 Inspect the traces.  
-<blockquote>
-<i class="fa fa-desktop"></i>
-On the left bar under 'Search', select 'app-ui.user#' for 'Service' and 'userprofile-user#.svc.cluster.local' for 'Operation'.  
+<br>
+
+On the left bar under **Search**, select `app-ui.%username%` for **Service** and `userprofile-%username%.svc.cluster.local` for 'Operation'.  
 </blockquote>
 
 <blockquote>
