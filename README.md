@@ -10,6 +10,10 @@ The original content has been modified here to work with an OpenShift Homeroom d
 ## Deploying this workshop
 1. Complete [these steps](https://github.com/RedHatGov/openshift-microservices/tree/workshop-stable/deployment/workshop) **first**
 2. Adjust **Kiali** and **Jaeger** as indicated above
+```bash
+oc patch -n istio-system kiali kiali -p '{"spec":{"auth":{"strategy":"token"}}}' --type merge
+oc patch -n istio-system jaeger jaeger -p '{"spec":{"ingress":{"security":"none"}}}' --type merge
+```
 3. Set a local `CLUSTER_SUBDOMAIN` environment variable
 4. Grab my template to deploy a `workshop-spawner`. Note that the `CUSTOM_TAB_*` variables take the form `<tabLabel>=<url>` 
 ```
