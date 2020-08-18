@@ -25,6 +25,7 @@ Switch to the **Terminal** tab, and try running:
 ```execute
 oc whoami
 ```
+*You can click the play button in the top right corner of the code block to automatically execute the command for you.*
 
 <br>
 

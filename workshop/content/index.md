@@ -1,11 +1,3 @@
----
-title: OpenShift Service Mesh
-menu:
-  main:
-    parent: workshops
-    pre: fa fa-th
----
-
 # OpenShift Service Mesh
 
 ## Description 
