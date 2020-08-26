@@ -1,7 +1,5 @@
 # OpenShift Service Mesh Workshop
-This content is sourced from the original content [here](https://github.com/RedHatGov/redhatgov.github.io/tree/docs/content/workshops/openshift_service_mesh).
-
-The original content has been modified here to work with an OpenShift Homeroom deployment. Changes include
+This content has been designed to work with an OpenShift Homeroom deployment. Considerations include
 * Variable interpolation for user or cluster-specific variables in the lab guide content
 * Usage of cluster-internal URLs for accessing or testing services with `curl`
 * **Kiali** and **Jaeger** are built into the dashboard view for ease of use
@@ -15,16 +13,16 @@ oc patch -n istio-system kiali kiali -p '{"spec":{"auth":{"strategy":"token"}}}'
 oc patch -n istio-system jaeger jaeger -p '{"spec":{"ingress":{"security":"none"}}}' --type merge
 ```
 3. Set a local `CLUSTER_SUBDOMAIN` environment variable
-4. Grab my template to deploy a `workshop-spawner`. Note that the `CUSTOM_TAB_*` variables take the form `<tabLabel>=<url>` 
+4. Grab the template to deploy a `workshop-spawner`. Note that the `CUSTOM_TAB_*` variables take the form `<tabLabel>=<url>` 
 ```
 CLUSTER_SUBDOMAIN=<apps.openshift.com>
 
-oc process -f https://raw.githubusercontent.com/andykrohg/workshop-spawner/custom-tabs/templates/hosted-workshop-production.json \
+oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/develop/templates/hosted-workshop-production.json \
     -p SPAWNER_NAMESPACE=istio-system \
     -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
     -p WORKSHOP_NAME=service-mesh-workshop \
     -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
-    -p WORKSHOP_IMAGE=quay.io/akrohg/service-mesh-workshop-dashboard:latest \
+    -p WORKSHOP_IMAGE=quay.io/redhatgov/service-mesh-workshop-dashboard:latest \
     -p CUSTOM_TAB_1=Kiali=https://kiali-istio-system.$CLUSTER_SUBDOMAIN \
     -p CUSTOM_TAB_2=Jaeger=https://jaeger-istio-system.$CLUSTER_SUBDOMAIN \
 | oc apply -f -
