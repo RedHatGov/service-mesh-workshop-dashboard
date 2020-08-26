@@ -6,6 +6,6 @@ script:
   - hack/build.sh -l local
 deploy:
   provider: script
-  script: bash hack/build.sh -l quay -p akrohg
+  script: bash hack/build.sh -l quay
   on:
     branch: main
