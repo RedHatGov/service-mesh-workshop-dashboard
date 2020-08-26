@@ -1,9 +1,8 @@
-FROM quay.io/akrohg/workshop-dashboard-custom:latest
-ARG PIPELINE_STYLE
+FROM quay.io/redhatgov/workshop-dashboard:latest
 
 USER root
 
-COPY ./$PIPELINE_STYLE /tmp/src
+COPY . /tmp/src
 
 RUN rm -rf /tmp/src/.git* && \
     chown -R 1001 /tmp/src && \
