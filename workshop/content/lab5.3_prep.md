@@ -84,7 +84,7 @@ Run the following to print the password out:
 </blockquote>
 
 ```execute
-echo $(oc get secret/credential-workshop-keycloak -o jsonpath="{.data.ADMIN_PASSWORD}") | base64 -d && echo
+echo $(oc get secret/credential-workshop-keycloak -o jsonpath="{.data.ADMIN_PASSWORD}") | base64 --decode && echo
 ```
 
 <blockquote>
