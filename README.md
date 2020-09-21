@@ -6,7 +6,7 @@ This content has been designed to work with an OpenShift Homeroom deployment. Co
     * Because these windows are loaded in HTML iframes, they cannot support OAuth authentication flows. We workaround this by using token-auth in Kiali and no auth in Jaeger.  
 
 ## Deploying this workshop
-1. Complete [these steps](https://github.com/RedHatGov/openshift-microservices/tree/workshop-stable/deployment/workshop) **first**
+1. Complete [these steps](https://github.com/RedHatGov/service-mesh-workshop-code/tree/workshop-stable/deployment/workshop) **first**
 2. Adjust **Kiali** and **Jaeger** as indicated above
 ```bash
 oc patch -n istio-system kiali kiali -p '{"spec":{"auth":{"strategy":"token"}}}' --type merge
