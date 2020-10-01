@@ -7,10 +7,11 @@ This content has been designed to work with an OpenShift Homeroom deployment. Co
 
 ## Deploying this workshop
 1. Complete [these steps](https://github.com/RedHatGov/service-mesh-workshop-code/tree/workshop-stable/deployment/workshop) **first**
-2. Adjust **Kiali** and **Jaeger** as indicated above
+2. Adjust **Kiali** and **Jaeger** as indicated above, then restart **Kiali**
 ```bash
 oc patch -n istio-system kiali kiali -p '{"spec":{"auth":{"strategy":"token"}}}' --type merge
 oc patch -n istio-system jaeger jaeger -p '{"spec":{"ingress":{"security":"none"}}}' --type merge
+oc rollout restart deployment kiali -n istio-system
 ```
 3. Set a local `CLUSTER_SUBDOMAIN` environment variable
 ```
