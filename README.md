@@ -14,22 +14,26 @@ oc patch -n istio-system jaeger jaeger -p '{"spec":{"ingress":{"security":"none"
 oc rollout restart deployment kiali -n istio-system
 ```
 3. Set a local `CLUSTER_SUBDOMAIN` environment variable
-```
+```bash
 CLUSTER_SUBDOMAIN=<apps.openshift.com>
 ```
-4. Grab the template to deploy a `workshop-spawner`. Note that the `CUSTOM_TAB_*` variables take the form `<tabLabel>=<url>` 
+4. Create a project for the homeroom to live
+```bash
+oc new-project homeroom --display-name="Homeroom Workshops"
+```
+5. Grab the template to deploy a `workshop-spawner`. Note that the `CUSTOM_TAB_*` variables take the form `<tabLabel>=<url>` 
 ```
 oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/develop/templates/hosted-workshop-production.json \
-    -p SPAWNER_NAMESPACE=istio-system \
+    -p SPAWNER_NAMESPACE=hoomeroom \
     -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
     -p WORKSHOP_NAME=service-mesh-workshop \
     -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
     -p WORKSHOP_IMAGE=quay.io/redhatgov/service-mesh-workshop-dashboard:latest \
     -p CUSTOM_TAB_1=Kiali=https://kiali-istio-system.$CLUSTER_SUBDOMAIN \
     -p CUSTOM_TAB_2=Jaeger=https://jaeger-istio-system.$CLUSTER_SUBDOMAIN \
-| oc apply -f -
+| oc apply -n homeroom -f -
 ```
 5. Give this URL (or preferably a shortened version) to your workshop attendees:
 ```
-echo https://service-mesh-workshop-istio-system.$CLUSTER_SUBDOMAIN
+echo https://service-mesh-workshop-homeroom.$CLUSTER_SUBDOMAIN
 ```
