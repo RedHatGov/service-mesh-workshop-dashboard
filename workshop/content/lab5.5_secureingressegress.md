@@ -111,6 +111,8 @@ kind: ServiceEntry
 metadata:
   name: context-scraper-egress
 spec:
+  exportTo:
+  - "."
   hosts:
   - www.googleapis.com
   ports:
