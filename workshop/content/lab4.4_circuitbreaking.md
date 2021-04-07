@@ -113,6 +113,7 @@ Revert the changes you made before ending this lab.
 
 ```execute
 oc apply -f ./istio-configuration/destinationrules-all.yaml
+oc apply -f ./istio-configuration/virtual-services-default.yaml
 ```
 
 <br>
