@@ -15,7 +15,7 @@ The microservices include single sign-on (SSO), user interface (UI), the boards 
 
 You are going to build the application images from source code and then deploy the resources in the cluster.
 
-The source files are labeled '{microservice}-fromsource.yaml'.  In each file, an annotation 'sidecar.istio.io/inject' was added to tell Istio to inject a sidecar proxy.
+The source files are labeled '{microservice}-fromsource.yaml'.  In each file, an annotation 'sidecar.istio.io/inject' was added to tell Service Mesh to inject a sidecar proxy.
 
 <blockquote>
 <i class="fa fa-terminal"></i>
@@ -23,7 +23,7 @@ Verify the annotation in the 'app-ui' file:
 </blockquote>
 
 ```execute
-cat openshift-configuration/app-ui-fromsource.yaml | grep -B 1 sidecar.istio.io/inject
+cat config/app/app-ui-fromsource.yaml | grep -B 1 sidecar.istio.io/inject
 ```
 
 Output:
@@ -42,10 +42,10 @@ Deploy the boards service:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/boards-fromsource.yaml \
+oc new-app -f ./config/app/boards-fromsource.yaml \
   -p APPLICATION_NAME=boards \
   -p NODEJS_VERSION_TAG=10 \
-  -p GIT_URI=https://github.com/RedHatGov/openshift-microservices.git \
+  -p GIT_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git \
   -p GIT_BRANCH=workshop-stable \
   -p DATABASE_SERVICE_NAME=boards-mongodb \
   -p MONGODB_DATABASE=boardsDevelopment
@@ -57,11 +57,11 @@ Deploy the context scraper service:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/context-scraper-fromsource.yaml \
+oc new-app -f ./config/app/context-scraper-fromsource.yaml \
   -p APPLICATION_NAME=context-scraper \
   -p NODEJS_VERSION_TAG=10 \
   -p GIT_BRANCH=workshop-stable \
-  -p GIT_URI=https://github.com/RedHatGov/openshift-microservices.git
+  -p GIT_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git
 ```
 
 <blockquote>
@@ -70,11 +70,11 @@ Deploy the user interface:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/app-ui-fromsource.yaml \
+oc new-app -f ./config/app/app-ui-fromsource.yaml \
   -p APPLICATION_NAME=app-ui \
   -p NODEJS_VERSION_TAG=10 \
   -p GIT_BRANCH=workshop-stable \
-  -p GIT_URI=https://github.com/RedHatGov/openshift-microservices.git \
+  -p GIT_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git \
   -e FAKE_USER=true
 ```
 
@@ -89,21 +89,22 @@ oc get pods --watch
 
 <br>
 
-Wait a couple minutes.  You should see the 'app-ui', 'boards', 'context-scraper', and 'sso' pods running.  For example:
+Wait a couple minutes.  You should see the 'app-ui', 'boards', and 'context-scraper' pods running.  For example:
 
 ```
-NAME                       READY   STATUS      RESTARTS   AGE
-app-ui-1-build             0/1     Completed   0          64m
-app-ui-1-xxxxx             2/2     Running     0          62m
-app-ui-1-deploy            0/1     Completed   0          62m
-boards-1-xxxxx             2/2     Running     0          62m
-boards-1-build             0/1     Completed   0          64m
-boards-1-deploy            0/1     Completed   0          62m
-boards-mongodb-1-xxxxx     2/2     Running     0          64m
-boards-mongodb-1-deploy    0/1     Completed   0          64m
-context-scraper-1-build    0/1     Completed   0          64m
-context-scraper-1-xxxxx    2/2     Running     0          62m
-context-scraper-1-deploy   0/1     Completed   0          62m
+NAME                                    READY   STATUS      RESTARTS   AGE
+app-ui-1-build                          0/1     Completed   0          64m
+app-ui-1-xxxxx                          2/2     Running     0          62m
+app-ui-1-deploy                         0/1     Completed   0          62m
+boards-1-xxxxx                          2/2     Running     0          62m
+boards-1-build                          0/1     Completed   0          64m
+boards-1-deploy                         0/1     Completed   0          62m
+boards-mongodb-1-xxxxx                  2/2     Running     0          64m
+boards-mongodb-1-deploy                 0/1     Completed   0          64m
+context-scraper-1-build                 0/1     Completed   0          64m
+context-scraper-1-xxxxx                 2/2     Running     0          62m
+context-scraper-1-deploy                0/1     Completed   0          62m
+rhsso-operator-xxxxxxxxx-xxxxx          1/1     Running     0          15h
 ```
 
 <br>
@@ -130,7 +131,7 @@ app-ui istio-proxy
 
 The application is deployed!  But you need a way to access the application via the user interface.
 
-Istio provides a [Gateway][1] resource, which can configure a load balancer at the edge of the service mesh.  In the previous lab, you verified that a load balancer was already created for you in your project.  The next step is to deploy a Gateway resource and configure the load balancer to route to the application user interface.
+Istio provides a [Gateway][1] resource, which can configure a load balancer at the edge of the service mesh.  The next step is to deploy a Gateway resource and configure the load balancer to route to the application user interface.
 
 <blockquote>
 <i class="fa fa-terminal"></i>
@@ -138,8 +139,7 @@ Create the gateway configuration and routing rules:
 </blockquote>
 
 ```execute
-oc process -f ./istio-configuration/ingress-gateway.yaml \
-  -p INGRESS_GATEWAY_NAME=demogateway-$PROJECT_NAME | oc create -f -
+oc create -f ./config/gateway.yaml
 ```
 
 To access the application, you need the endpoint of your load balancer.
@@ -150,7 +150,7 @@ Retrieve the URL of the load balancer:
 </blockquote>
 
 ```execute
-GATEWAY_URL=$(oc get route istio-demogateway-$(oc project -q) --template='http://{{.spec.host}}')
+GATEWAY_URL=$(oc get route istio-ingressgateway -n %username%-istio --template='http://{{.spec.host}}')
 echo $GATEWAY_URL
 ```
 
@@ -160,7 +160,7 @@ Navigate to this URL in a new browser tab.  For example:
 </blockquote>
 
 ```
-http://istio-demogateway-userX-userX.apps.cluster-naa-xxxx.naa-xxxx.example.opentlc.com:6443
+http://istio-ingressgateway-userx-istio.apps.cluster-naa-xxxx.naa-xxxx.example.opentlc.com:6443
 ```
 
 <br>

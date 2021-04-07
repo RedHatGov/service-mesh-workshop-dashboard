@@ -13,7 +13,7 @@ Currently, the services you deployed in earlier labs are secured from access by 
 </blockquote>
 
 ```execute
-curl http://boards.$PROJECT_NAME:8080/shareditems | jq
+curl http://boards.%username%:8080/shareditems | jq
 ```
 
 This job executes a direct HTTP curl request for the current shared boards list. It'll print out something similar to this:
@@ -52,15 +52,13 @@ Service mesh allows setting policy at the individual service, namespace, and ent
 
 We already wrote the YAML config to do this. It looks like this:
 ```yaml
-apiVersion: authentication.istio.io/v1alpha1
-kind: Policy
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
 metadata:
   name: "default"
-  namespace: "microservices-demo"
 spec:
-  peers:
-  - mtls:
-      mode: STRICT
+  mtls:
+    mode: STRICT
 ```
 
 <blockquote>
@@ -68,9 +66,8 @@ spec:
 </blockquote>
 
 ```execute
-sed "s|microservices-demo|$PROJECT_NAME|" ./istio-configuration/policy-mtls.yaml | oc apply -f -
+oc create -f ./config/istio/peer-authentication-mtls.yaml
 ```
-<br>
 
 Now we also need to set DestinationRules for each service so that our sidecars know to use mTLS when communicating with each other. The YAML for that looks like this - note the use of a wildcard:
 ```yaml
@@ -78,9 +75,8 @@ apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
   name: "destinationrule-mtls-istio-mutual"
-  namespace: "microservices-demo"
 spec:
-  host: "*.microservices-demo.svc.cluster.local"
+  host: "*.svc.cluster.local"
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -100,9 +96,8 @@ oc delete dr --all
 </blockquote>
 
 ```execute
-sed "s|microservices-demo|$PROJECT_NAME|" ./istio-configuration/destinationrule-mtls.yaml | oc apply -f -
+oc create -f ./config/istio/destinationrule-mtls.yaml
 ```
-<br>
 
 ## Verify the App Still Works with mTLS On
 So now that the policy is applied, all our service-to-service (aka peer) communication will **require** mTLS.

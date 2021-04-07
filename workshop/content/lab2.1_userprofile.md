@@ -31,7 +31,7 @@ Take a look at the "UserProfile" class in your repository:
 </blockquote>
 
 ```execute
-cat ../../code/userprofile/src/main/java/org/microservices/demo/json/UserProfile.java | grep "public UserProfile(String" -A 7
+cat ./code/userprofile/src/main/java/org/microservices/demo/json/UserProfile.java | grep "public UserProfile(String" -A 7
 ```
 
 Output:
@@ -57,7 +57,7 @@ Next, take a look at the "UserProfileService" class:
 </blockquote>
 
 ```execute
-cat ../../code/userprofile/src/main/java/org/microservices/demo/service/UserProfileService.java | grep "UserProfile getProfile(" -B 5
+cat ./code/userprofile/src/main/java/org/microservices/demo/service/UserProfileService.java | grep "UserProfile getProfile(" -B 5
 ```
 
 Output:
@@ -86,7 +86,7 @@ Verify the base image used to build the application:
 </blockquote>
 
 ```execute
-cat ./openshift-configuration/userprofile-build.yaml | grep -A 4 sourceStrategy
+cat ./config/app/userprofile-build.yaml | grep -A 4 sourceStrategy
 ```
 
 Output (snippet):
@@ -108,9 +108,9 @@ Create the build:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/userprofile-build.yaml \
+oc new-app -f ./config/app/userprofile-build.yaml \
   -p APPLICATION_NAME=userprofile \
-  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/openshift-microservices.git \
+  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git \
   -p APPLICATION_CODE_BRANCH=workshop-stable \
   -p APP_VERSION_TAG=1.0
 ```
@@ -157,4 +157,4 @@ NAME          IMAGE REPOSITORY                                                  
 userprofile   image-registry.openshift-image-registry.svc:5000/microservices-demo/userprofile   1.0   3 minutes ago
 ```
 
-[1]: https://docs.openshift.com/container-platform/4.2/builds/understanding-buildconfigs.html
+[1]: https://docs.openshift.com/container-platform/4.6/builds/understanding-buildconfigs.html

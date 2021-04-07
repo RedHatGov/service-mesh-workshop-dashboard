@@ -16,7 +16,7 @@ You can do this CLI or web console. If using web console just use the + button a
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/sso-keycloak.yaml
+oc apply -f ./config/sso/sso-keycloak.yaml
 ```
 
 ```execute
@@ -48,15 +48,15 @@ keycloak-0                                 1/1     Running           0          
 </blockquote>
 
 ```execute
-sed "s|http://istio-ingressgateway-istio-system.apps.cluster.domain.com|$GATEWAY_URL|" ./istio-configuration/sso-realm.yaml | oc create -f -
+sed "s|http://istio-ingressgateway-istio-system.apps.cluster.domain.com|$GATEWAY_URL|" ./config/sso/sso-realm.yaml | oc create -f -
 ```
 
 ```execute
-oc apply -f ./istio-configuration/sso-user1.yaml
+oc apply -f ./config/sso/sso-user1.yaml
 ```
 
 ```execute
-oc apply -f ./istio-configuration/sso-user2.yaml
+oc apply -f ./config/sso/sso-user2.yaml
 ```
 
 ### Login to the SSO Admin Console

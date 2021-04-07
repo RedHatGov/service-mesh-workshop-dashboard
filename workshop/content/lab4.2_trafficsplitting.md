@@ -12,9 +12,9 @@ Create a new build on this feature branch:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/userprofile-build.yaml \
+oc new-app -f ./config/app/userprofile-build.yaml \
   -p APPLICATION_NAME=userprofile \
-  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/openshift-microservices.git \
+  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git \
   -p APPLICATION_CODE_BRANCH=workshop-feature-fix \
   -p APP_VERSION_TAG=3.0
 ```
@@ -99,7 +99,7 @@ Deploy the service using the image URI:
 </blockquote>
 
 ```execute
-sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./openshift-configuration/userprofile-deploy-v3.yaml | oc create -f -
+sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./config/app/userprofile-deploy-v3.yaml | oc create -f -
 ```
 
 <blockquote>
@@ -130,7 +130,7 @@ View the virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-90-10.yaml
+cat ./config/istio/virtual-service-userprofile-90-10.yaml
 ```
 
 Output (snippet):
@@ -159,7 +159,7 @@ Deploy the routing rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-90-10.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-90-10.yaml
 ```
 
 <blockquote>
@@ -208,7 +208,7 @@ View the virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-50-50.yaml
+cat ./config/istio/virtual-service-userprofile-50-50.yaml
 ```
 
 Output (snippet):
@@ -237,7 +237,7 @@ Deploy the routing rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-50-50.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-50-50.yaml
 ```
 
 <blockquote>
@@ -277,7 +277,7 @@ View the virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-v3.yaml
+cat ./config/istio/virtual-service-userprofile-v3.yaml
 ```
 
 Output (snippet):
@@ -299,7 +299,7 @@ Deploy the routing rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-v3.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-v3.yaml
 ```
 
 <blockquote>
