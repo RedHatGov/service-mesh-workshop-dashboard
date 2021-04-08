@@ -80,7 +80,7 @@ You can inspect information about the traffic being sent between the services vi
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Click 'No edge labels' and switch to 'Requests per second'.
+Click 'Display' and switch to 'Requests per second' under 'Show Edge Labels'.
 </blockquote>
 
 You can now see HTTP traffic information between the microservices.

@@ -139,7 +139,7 @@ Create the gateway configuration and routing rules:
 </blockquote>
 
 ```execute
-oc create -f ./config/gateway.yaml
+oc create -f ./config/istio/gateway.yaml
 ```
 
 To access the application, you need the endpoint of your load balancer.
