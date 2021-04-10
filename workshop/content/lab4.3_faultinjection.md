@@ -71,10 +71,10 @@ Change the 'No edge labels' dropdown to 'Requests percentage'
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Click on the connection between  the 'app-ui' (square) and 'userprofile' service (triangle).  
+Click on the red connection line between  the 'app-ui' (square) and 'userprofile' service (triangle).  
 </blockquote>
 
-On the right, you should see roughly 50% of requests returned as HTTP errors.
+You should see roughly 50% of requests returned as HTTP errors.
 
 <img src="images/kiali-userprofile-503.png" width="1024"><br/>
 *Kiali Graph with abort faults*
