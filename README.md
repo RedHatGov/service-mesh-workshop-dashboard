@@ -38,7 +38,7 @@ Your workshop attendees will need user accounts in the OpenShift cluster.
 Now give this URL (or preferably a shortened version) to your workshop attendees:
 >`echo https://service-mesh-workshop-homeroom.$CLUSTER_SUBDOMAIN`
 
-### Alternative
+#### Optional
 Deploy a Username Distribution app for generating student IDs - this is especially handy for virtual workshops.
 ```bash
 NUM_USERS=<number of workshop users>
