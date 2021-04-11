@@ -11,8 +11,8 @@ We can lock down the service entirely and only let authenticated users access it
 </blockquote>
 
 ```execute
- sed "s|keycloak-sso-shared.apps.cluster.domain.com|$SSO_SVC|" ./config/istio/request-authentication-boards-jwt.yaml | oc apply -f -
- sed "s|keycloak-sso-shared.apps.cluster.domain.com|$SSO_SVC|" ./config/istio/serviceentry-keycloak.yaml | oc apply -f -
+ sed "s|%SSO_SVC%|$SSO_SVC|" ./config/istio/request-authentication-boards-jwt.yaml | oc apply -f -
+ sed "s|%SSO_SVC%|$SSO_SVC|" ./config/istio/serviceentry-keycloak.yaml | oc apply -f -
 ```
 
 
@@ -136,6 +136,10 @@ So, now that we've applied it, let's try to access your boards service when you'
 </blockquote>
 
 You should be able to see the items, but posting will fail with the following error.
+
+<blockquote>
+<i class="fa fa-desktop"></i> If you're still able to post, wait a minute for the rule to take effect.
+</blockquote>
 
 <img src="images/app-boardsshared-failedpost.png" width="1024" class="screenshot"><br/>
 

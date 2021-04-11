@@ -30,10 +30,15 @@ Run this command and look for outboundTrafficPolicy
 </blockquote>
 
 ```execute
-oc describe cm/istio -n %username%-istio
+oc describe cm/istio-workshop-install -n %username%-istio | grep outboundTrafficPolicy -A 1
 ```
 
-<br>
+Output:
+
+```
+outboundTrafficPolicy:
+  mode: REGISTRY_ONLY
+```
 
 <blockquote>
 <i class="fa fa-terminal"></i>
