@@ -12,8 +12,7 @@ Open the Grafana console.  Retrieve the endpoint for Grafana:
 </blockquote>
 
 ```execute
-GRAFANA_CONSOLE=$(oc get route grafana -n %username%-istio --template='https://{{.spec.host}}')
-echo $GRAFANA_CONSOLE
+echo $(oc get route grafana -n %username%-istio --template='https://{{.spec.host}}')
 ```
 <p><i class="fa fa-info-circle"></i> Click 'Allow selected permissions' if prompted to authorized access.</p>
 

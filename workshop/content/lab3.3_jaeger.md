@@ -8,10 +8,18 @@ First, let's explore the Jaeger user interface.
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Open the Jaeger tab in your dashboard.
+Open the Jaeger console. Retrieve the endpoint for Jaeger: 
 </blockquote>
 
-You should be presented with the Jaeger console:
+```execute
+echo $(oc get route jaeger -n istio-system --template='https://{{.spec.host}}')
+```
+
+Click 'Allow selected permissions' if prompted to authorized access.
+
+> Navigate to this URL in the browser. Login with the same credentials you were provided to access OpenShift. 
+
+Once logged in, you should be presented with the Jaeger console:
 
 <img src="images/jaeger-welcome.png" width="1024"><br/>
 *Jaeger Welcome*
