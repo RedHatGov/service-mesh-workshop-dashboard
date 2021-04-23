@@ -11,29 +11,26 @@ We can lock down the service entirely and only let authenticated users access it
 </blockquote>
 
 ```execute
- sed "s|keycloak-sso-shared.apps.cluster.domain.com|$SSO_SVC|" ./istio-configuration/policy-boards-jwt.yaml | oc apply -f -
- sed "s|keycloak-sso-shared.apps.cluster.domain.com|$SSO_SVC|" ./istio-configuration/serviceentry-keycloak.yaml | oc apply -f -
+ sed "s|%SSO_SVC%|$SSO_SVC|" ./config/istio/request-authentication-boards-jwt.yaml | oc apply -f -
+ sed "s|%SSO_SVC%|$SSO_SVC|" ./config/istio/serviceentry-keycloak.yaml | oc apply -f -
 ```
 
 
 The policy specifies the requirements for traffic to the boards service to have a JWT with specific properties. It looks like this:
 ```yaml
-apiVersion: authentication.istio.io/v1alpha1
-kind: Policy
+apiVersion: "security.istio.io/v1beta1"
+kind: RequestAuthentication
 metadata:
-  name: boards-jwt
+  name: "boards-jwt"
 spec:
-  targets:
-  - name: boards
-  origins:
-  - jwt:
-      issuer: "https://keycloak-sso-shared.apps.leonardo.nub3s.io/auth/realms/microservices-demo"
-      jwksUri: "https://keycloak-sso-shared.apps.leonardo.nub3s.io/auth/realms/microservices-demo/protocol/openid-connect/certs"
-      triggerRules:
-      - excludedPaths:
-        - exact: /health_check
-        - prefix: /status/
-  principalBinding: USE_ORIGIN
+  selector:
+    matchLabels:
+      app: boards
+      deploymentconfig: boards
+  jwtRules:
+  - issuer: "https://keycloak-sso-shared.apps.cluster.domain.com/auth/realms/microservices-demo"
+    jwksUri: "https://keycloak-sso-shared.apps.cluster.domain.com/auth/realms/microservices-demo/protocol/openid-connect/certs"
+
 ```
 <p>
 <i class="fa fa-info-circle"></i>
@@ -89,7 +86,7 @@ In this scenario we want to further secure access to the shared boards list so o
 </blockquote>
 
 ```execute
-sed "s|microservices-demo|$PROJECT_NAME|" ./istio-configuration/authorization-boards-shared-lockdown.yaml | oc apply -f -
+oc create -f ./config/istio/authorization-boards-shared-lockdown.yaml
 ```
 
 That configuration looks like this:
@@ -98,7 +95,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: boards-shared-lockdown
-  namespace: microservices-demo
 spec:
   selector:
     matchLabels:
@@ -141,6 +137,10 @@ So, now that we've applied it, let's try to access your boards service when you'
 
 You should be able to see the items, but posting will fail with the following error.
 
+<blockquote>
+<i class="fa fa-desktop"></i> If you're still able to post, wait a minute for the rule to take effect.
+</blockquote>
+
 <img src="images/app-boardsshared-failedpost.png" width="1024" class="screenshot"><br/>
 
 <br>
@@ -168,7 +168,7 @@ oc delete authorizationpolicy/boards-shared-lockdown
 ```
 
 ```execute
-oc delete policy/boards-jwt
+oc delete requestauthentication/boards-jwt
 ```
 
 ```execute

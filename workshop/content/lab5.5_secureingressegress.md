@@ -30,10 +30,15 @@ Run this command and look for outboundTrafficPolicy
 </blockquote>
 
 ```execute
-oc describe cm/istio -n istio-system
+oc describe cm/istio-workshop-install -n %username%-istio | grep outboundTrafficPolicy -A 1
 ```
 
-<br>
+Output:
+
+```
+outboundTrafficPolicy:
+  mode: REGISTRY_ONLY
+```
 
 <blockquote>
 <i class="fa fa-terminal"></i>
@@ -41,7 +46,7 @@ Now let's verify it's working - Run this command to scrape some data:
 </blockquote>
 
 ```execute
-curl context-scraper.$PROJECT_NAME:8080/scrape/custom_search?term==skynet | jq
+curl context-scraper.%username%:8080/scrape/custom_search?term==skynet | jq
 ```
 
 We should get an output similar to the one below, with error of ECONNRESET:
@@ -131,7 +136,7 @@ Apply it with the following command:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/serviceentry-googleapis.yaml
+oc apply -f ./config/istio/serviceentry-googleapis.yaml
 ```
 
 <br>
@@ -142,7 +147,7 @@ Try scrape some data again:
 </blockquote>
 
 ```execute
-curl context-scraper.$PROJECT_NAME:8080/scrape/custom_search?term==skynet | jq
+curl context-scraper.%username%:8080/scrape/custom_search?term==skynet | jq
 ```
 
 Now we should get an output similar to the one below - showing results:

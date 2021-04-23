@@ -30,24 +30,22 @@ for ((i=1;i<=100;i++)); do curl -s -o /dev/null $GATEWAY_URL/profile; done
 
 <blockquote>
 <i class="fa fa-terminal"></i>
-Now let's open the Kiali console.  Retrieve your user token for Kiali:
+Now let's open the Kiali console.  Retrieve the endpoint for Kiali: 
 </blockquote>
 
 
 ```execute
-oc whoami --show-token
+echo $(oc get route kiali -n istio-system --template='https://{{.spec.host}}')
 ```
 
 Output (sample):
 ```
-wNitcJFjHP2XwzOseLwFNg1ucLd0jk2jf2VaP9yR99A
+https://kiali-userx-istio.apps.cluster-naa-xxxx.naa-xxxx.example.opentlc.com
 ```
-
-<br>
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Copy the output and Open the Kiali tab in your dashboard, and 
+Navigate to this URL in the browser. Login with the same credentials you were provided to access OpenShift. 
 </blockquote>
 
 Once logged in, you should be presented with the Kiali console:
@@ -80,7 +78,7 @@ You can inspect information about the traffic being sent between the services vi
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Click 'No edge labels' and switch to 'Requests per second'.
+Click 'Display' and switch to 'Requests per second' under 'Show Edge Labels'.
 </blockquote>
 
 You can now see HTTP traffic information between the microservices.

@@ -14,7 +14,7 @@ View the virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-503.yaml
+cat ./config/istio/virtual-service-userprofile-503.yaml
 ```
 
 Output (snippet):
@@ -40,7 +40,7 @@ Deploy the routing rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-503.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-503.yaml
 ```
 
 <blockquote>
@@ -71,10 +71,10 @@ Change the 'No edge labels' dropdown to 'Requests percentage'
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Click on the connection between  the 'app-ui' (square) and 'userprofile' service (triangle).  
+Click on the red connection line between  the 'app-ui' (square) and 'userprofile' service (triangle).  
 </blockquote>
 
-On the right, you should see roughly 50% of requests returned as HTTP errors.
+You should see roughly 50% of requests returned as HTTP errors.
 
 <img src="images/kiali-userprofile-503.png" width="1024"><br/>
 *Kiali Graph with abort faults*
@@ -113,7 +113,7 @@ View the virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-delay.yaml
+cat ./config/istio/virtual-service-userprofile-delay.yaml
 ```
 
 Output (snippet):
@@ -139,7 +139,7 @@ Deploy the routing rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-delay.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-delay.yaml
 ```
 
 <blockquote>
@@ -176,7 +176,7 @@ Revert the changes you made before ending this lab.
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-v3.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-v3.yaml
 ```
 
 <br>

@@ -27,7 +27,7 @@ oc whoami
 ```
 *You can click the play button in the top right corner of the code block to automatically execute the command for you.*
 
-<br>
+You should see your username: %username%.
 
 The instructor will have preconfigured your projects for you.
 
@@ -39,7 +39,7 @@ The instructor will have preconfigured your projects for you.
 oc projects
 ```
 
-You should see two projects: your user project (e.g. '%username%') and 'istio-system'.  
+You should see two projects: your user project (e.g. '%username%') and '%username%-istio'.  
 
 <br>
 
@@ -66,25 +66,11 @@ oc get pods
 Output (sample):
 
 ```
-NAME                                       READY   STATUS    RESTARTS   AGE
-istio-demogateway-user1-xxxxxxxxxx-xxxxx   1/1     Running   0          2m41s
-keycloak-operator-xxxxxxxxx-xxxxx          1/1     Running   0          15h
+NAME                                    READY   STATUS    RESTARTS   AGE
+rhsso-operator-xxxxxxxxx-xxxxx          1/1     Running   0          15h
 ```
 
-The gateway is a load balancer dedicated to your project.  You will configure this load balancer in the next lab.  The keycloak operator will be used in the security labs.
-
-<br>
-
-Finally, set the project name variable.
-
-<blockquote>
-<i class="fa fa-terminal"></i>
-Run this command:
-</blockquote>
-
-```execute
-PROJECT_NAME=$(oc project -q)
-```
+The RH-SSO operator will be used later in the security labs.
 
 <br>
 
@@ -96,7 +82,7 @@ Next we need a local copy of our application code.
 </blockquote>
 
 ```execute
-git clone https://github.com/RedHatGov/openshift-microservices.git
+git clone https://github.com/RedHatGov/service-mesh-workshop-code.git
 ```
 
 <blockquote>
@@ -104,51 +90,37 @@ git clone https://github.com/RedHatGov/openshift-microservices.git
 </blockquote>
 
 ```execute
-cd openshift-microservices && git checkout workshop-stable
+cd service-mesh-workshop-code && git checkout workshop-stable
 ```
-
-<blockquote>
-<i class="fa fa-terminal"></i>
-Navigate to the workshop directory:
-</blockquote>
-
-```execute
-cd deployment/workshop
-```
-
-<br>
 
 ## Istio
-Istio should have been installed in the cluster by the instructor.  Let's make sure Istio is running in the cluster.  You will only have view access to the Istio project.
+Istio should have been installed in the cluster by the instructor.  Let's make sure it is running in the cluster.  
+
+The %username%-istio project is a service mesh dedicated to you.
 
 <blockquote>
-<i class="fa fa-terminal"></i>
-List all the Istio components:
+<i class="fa fa-terminal"></i> List the pods in the service mesh project:
 </blockquote>
 
 ```execute
-oc get pods -n istio-system
+oc get pods -n %username%-istio
 ```
 
 Output:
 
 ```
 NAME                                      READY   STATUS    RESTARTS   AGE
-grafana-xxxxxxxxx-xxxxx                  2/2     Running   0          17m
-istio-citadel-xxxxxxxxx-xxxxx            1/1     Running   0          20m
-istio-egressgateway-xxxxxxxx-xxxxx       1/1     Running   0          17m
-istio-galley-xxxxxxxx-xxxxx              1/1     Running   0          19m
-istio-ingressgateway-xxxxxxxxx-xxxxx     1/1     Running   0          17m
-istio-pilot-xxxxxxxxx-xxxxx              2/2     Running   0          18m
-istio-policy-xxxxxxxxx-xxxxx             2/2     Running   0          19m
-istio-sidecar-injector-xxxxxxxxx-xxxxx   1/1     Running   0          17m
-istio-telemetry-xxxxxxxxx-xxxxx          2/2     Running   0          19m
-jaeger-xxxxxxxxx-xxxxx                   2/2     Running   0          19m
-kiali-xxxxxxxxx-xxxxx                    1/1     Running   0          16m
-prometheus-xxxxxxxxx-xxxxx               2/2     Running   0          19m
+grafana-xxxxxxxxx-xxxxx                   2/2     Running   0          5h30m
+istio-egressgateway-xxxxxxxx-xxxxx        1/1     Running   0          5h30m
+istio-ingressgateway-xxxxxxxxx-xxxxx      1/1     Running   0          5h30m
+istio-telemetry-xxxxxxxxx-xxxxx           2/2     Running   0          5h25m
+istiod-workshop-install-xxxxxxxxx-xxxxx   1/1     Running   0          5m28s
+jaeger-xxxxxxxxxx-xxxxx                   2/2     Running   0          5h25m
+kiali-xxxxxxxxxx-xxxxx                    1/1     Running   0          5h25m
+prometheus-xxxxxxxxx-xxxxx                2/2     Running   0          5h30m
 ```
 
-The primary control plane components are [Pilot][1], [Mixer][2], and [Citadel][3].  Pilot handles traffic management.  Mixer handles policy and telemetry.  Citadel handles security.
+The primary control plane component is the Istio daemon `istiod`.  `istiod` handles [Traffic Management][1], [Telemetry][2], and [Security][3].  The `istio-ingressgateway` is a load balancer for your service mesh.  You will configure this with a microservices application in the next lab.
 
 [1]: https://istio.io/docs/concepts/traffic-management/
 [2]: https://istio.io/docs/concepts/observability/

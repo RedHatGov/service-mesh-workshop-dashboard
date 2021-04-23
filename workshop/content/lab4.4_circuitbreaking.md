@@ -18,7 +18,7 @@ View the destination rule in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/destinationrule-circuitbreaking.yaml
+cat ./config/istio/destinationrule-circuitbreaking.yaml
 ```
 
 Output (snippet):
@@ -47,7 +47,7 @@ Deploy this circuit breaking rule:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/destinationrule-circuitbreaking.yaml
+oc apply -f ./config/istio/destinationrule-circuitbreaking.yaml
 ```
 
 <br>
@@ -60,7 +60,7 @@ First, route traffic evenly between v1 and v3 of the user profile service.
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-50-50.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-50-50.yaml
 ```
 
 <blockquote>
@@ -112,8 +112,8 @@ Revert the changes you made before ending this lab.
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/destinationrules-all.yaml
-oc apply -f ./istio-configuration/virtual-services-default.yaml
+oc apply -f ./config/istio/destinationrules-all.yaml
+oc apply -f ./config/istio/virtual-services-default.yaml
 ```
 
 <br>

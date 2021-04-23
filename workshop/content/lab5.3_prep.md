@@ -16,47 +16,42 @@ You can do this CLI or web console. If using web console just use the + button a
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/sso-keycloak.yaml
-```
-
-```execute
-oc patch cm/keycloak-probes -p '{"data":{"liveness_probe.sh":"#!/bin/bash\necho pass\n","readiness_probe.sh":"#!/bin/bash\necho pass\n"}}'
+oc apply -f ./config/sso/sso-keycloak.yaml
 ```
 
 <blockquote>
-<i class="fa fa-terminal"></i> Watch the pods for keycloak-0 to become READY 1/1:
+<i class="fa fa-terminal"></i> Wait a few minutes for the keycloak pod to become ready:
 </blockquote>
 
 ```execute
-oc get pods keycloak-0 -w
+oc wait --for=condition=Ready pod/keycloak-0 --timeout=300s
 ```
 
+Output:
 ```
-NAME                                       READY   STATUS      RESTARTS   AGE
-keycloak-0                                 0/1     Pending       0          0s
-keycloak-0                                 0/1     Init:0/1      0          0s
-keycloak-0                                 0/1     Init:0/1      0          3s
-keycloak-0                                 0/1     Init:0/1      0          4s
-keycloak-0                                 0/1     PodInitializing   0          9s
-keycloak-0                                 1/1     Running           0          10s
+pod/keycloak-0 condition met
 ```
 
-<br>
+Label the keycloak pod to allow routes:
+
+```execute
+oc label pod keycloak-0 maistra.io/expose-route=true
+```
 
 <blockquote>
 <i class="fa fa-terminal"></i> We configure via Kubernetes resources to create the realm + roles + clients & users as follows:
 </blockquote>
 
 ```execute
-sed "s|http://istio-ingressgateway-istio-system.apps.cluster.domain.com|$GATEWAY_URL|" ./istio-configuration/sso-realm.yaml | oc create -f -
+sed "s|%APP_URL%|$GATEWAY_URL|" ./config/sso/sso-realm.yaml | oc create -f -
 ```
 
 ```execute
-oc apply -f ./istio-configuration/sso-user1.yaml
+oc apply -f ./config/sso/sso-user1.yaml
 ```
 
 ```execute
-oc apply -f ./istio-configuration/sso-user2.yaml
+oc apply -f ./config/sso/sso-user2.yaml
 ```
 
 ### Login to the SSO Admin Console
@@ -66,8 +61,7 @@ Open the SSO console.  Retrieve the endpoint:
 </blockquote>
 
 ```execute
-SSO_CONSOLE=$(oc get route keycloak --template='https://{{.spec.host}}')
-echo $SSO_CONSOLE
+echo $(oc get route keycloak --template='https://{{.spec.host}}')
 ```
 
 <p>
@@ -154,10 +148,7 @@ Run the following in the CLI:
 </blockquote>
 
 ```execute
-oc create route reencrypt keycloak-alt --service=keycloak 
-```
-```execute
-SSO_SVC=$(oc get route keycloak-alt --template='{{.spec.host}}')
+SSO_SVC=$(oc get route keycloak --template='{{.spec.host}}')
 oc set env dc/app-ui FAKE_USER=false SSO_SVC_HOST=$SSO_SVC
 ```
 

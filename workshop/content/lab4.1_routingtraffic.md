@@ -16,7 +16,7 @@ View the destination rules in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/destinationrules-all.yaml
+cat ./config/istio/destinationrules-all.yaml
 ```
 
 Output (snippet):
@@ -52,7 +52,7 @@ View the virtual services in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-services-all-v2.yaml
+cat ./config/istio/virtual-services-all-v2.yaml
 ```
 
 Output (snippet):
@@ -83,8 +83,8 @@ Let's deploy these routing rules:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/destinationrules-all.yaml 
-oc apply -f ./istio-configuration/virtual-services-all-v2.yaml
+oc apply -f ./config/istio/destinationrules-all.yaml 
+oc apply -f ./config/istio/virtual-services-all-v2.yaml
 ```
 
 <blockquote>
@@ -122,7 +122,7 @@ app-ui                                                  [app-ui]                
 boards                                                  [boards]                   25m
 boards-mongodb                                          [boards-mongodb]           25m
 context-scraper                                         [context-scraper]          25m
-demogateway-userX        [demogateway-userX]            [*]                        44m
+ingressgateway          ["ingressgateway"]              [*]                        44m
 userprofile                                             [userprofile]              25m
 userprofile-postgresql                                  [userprofile-postgresql]   25m
 ```
@@ -188,7 +188,7 @@ View the modified virtual service in your favorite editor or via bash:
 </blockquote>
 
 ```execute
-cat ./istio-configuration/virtual-service-userprofile-v1.yaml
+cat ./config/istio/virtual-service-userprofile-v1.yaml
 ```
 
 Output:
@@ -215,7 +215,7 @@ Deploy the change:
 </blockquote>
 
 ```execute
-oc apply -f ./istio-configuration/virtual-service-userprofile-v1.yaml
+oc apply -f ./config/istio/virtual-service-userprofile-v1.yaml
 ```
 
 <blockquote>

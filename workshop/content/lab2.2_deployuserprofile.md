@@ -12,7 +12,7 @@ Verify the annotation in the 'userprofile' file:
 </blockquote>
 
 ```execute
-cat ./openshift-configuration/userprofile-deploy-all.yaml | grep -B 1 sidecar.istio.io/inject
+cat ./config/app/userprofile-deploy-all.yaml | grep -B 1 sidecar.istio.io/inject
 ```
 
 Output:
@@ -51,7 +51,7 @@ Deploy the service using this image URI:
 </blockquote>
 
 ```execute
-sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./openshift-configuration/userprofile-deploy-all.yaml | oc create -f -
+sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./config/app/userprofile-deploy-all.yaml | oc create -f -
 ```
 
 <blockquote>

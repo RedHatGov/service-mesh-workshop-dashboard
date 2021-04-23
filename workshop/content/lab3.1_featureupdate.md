@@ -12,9 +12,9 @@ Create a new build on this feature branch:
 </blockquote>
 
 ```execute
-oc new-app -f ./openshift-configuration/userprofile-build.yaml \
+oc new-app -f ./config/app/userprofile-build.yaml \
   -p APPLICATION_NAME=userprofile \
-  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/openshift-microservices.git \
+  -p APPLICATION_CODE_URI=https://github.com/RedHatGov/service-mesh-workshop-code.git \
   -p APPLICATION_CODE_BRANCH=workshop-feature-update \
   -p APP_VERSION_TAG=2.0
 ```
@@ -105,7 +105,7 @@ Deploy the service using the image URI:
 </blockquote>
 
 ```execute
-sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./openshift-configuration/userprofile-deploy-v2.yaml | oc create -f -
+sed "s|%USER_PROFILE_IMAGE_URI%|$USER_PROFILE_IMAGE_URI|" ./config/app/userprofile-deploy-v2.yaml | oc create -f -
 ```
 
 <blockquote>
@@ -147,7 +147,4 @@ The profile page will round robin between versions 1 and 2.  Version 2 loads rea
 <img src="images/app-profilepage-v2.png" width="1024"><br/>
  *Profile Page*
 
-
-## Next, we will use the Service Mesh to debug the problem.
-
-<br>
+Next, we will use the Service Mesh to debug the problem.
