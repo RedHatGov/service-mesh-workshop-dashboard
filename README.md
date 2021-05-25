@@ -7,57 +7,56 @@ This content has been designed to work with an OpenShift Homeroom deployment. Co
 
 The TL;DR of homeroom is that we build all these labs into a website, stuff that in a container, and deploy that container to the OpenShift cluster that the workshop attendees are using. This lets us show instructions side-by-side with the OpenShift webconsole and CLI terminal.
 
-## Deploying this workshop - if you have RHPDS
-We are working on getting this into a click-to-provision environment. It's not there yet, when it is this section will tell you how to order it.
+## How To Provision
 
-## Deploying this workshop - in your own cluster
-1. Complete [these steps](https://github.com/RedHatGov/service-mesh-workshop-code/tree/workshop-stable/deployment/workshop) **first**
+### Order from RHPDS
 
-2. Set a local `CLUSTER_SUBDOMAIN` environment variable
+TBD
+
+### AgnosticD Deployment
+
+Please see [agnosticd repo](https://github.com/redhat-cop/agnosticd) if you need a primer.
+
+1. Order an OpenShift 4.x Cluster on [RHPDS](https://rhpds.redhat.com).
+
+2. Set environment variables (substitute your own values)
+
 ```bash
-CLUSTER_SUBDOMAIN=<apps.openshift.com>
+export TARGET_HOST=changeme     # example: bastion.b454.sandbox1682.opentlc.com
+export OCP_USERNAME=changeme
+export WORKLOAD="ocp4_workload_servicemesh_workshop"
+export GUID=example     # example: b454
 ```
-3. Create a project for the homeroom to live
+
+3. Run AgnosticD  (use my fork: https://github.com/theckang/agnosticd/tree/servicemesh-workshop)
+
 ```bash
-oc new-project homeroom --display-name="Homeroom Workshops"
-```
-5. Grab the template to deploy a `workshop-spawner`. Note the `WORKSHOP_IMAGE` tag should be changed with the corresponding release you want to deploy.
-```
-oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/develop/templates/hosted-workshop-production.json \
-    -p SPAWNER_NAMESPACE=homeroom \
-    -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
-    -p WORKSHOP_NAME=service-mesh-workshop \
-    -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
-    -p WORKSHOP_IMAGE=quay.io/redhatgov/service-mesh-workshop-dashboard:x.x.x \
-| oc apply -n homeroom -f -
+ansible-playbook -i ${TARGET_HOST}, ./configs/ocp-workloads/ocp-workload.yml \
+    -e"ansible_ssh_private_key_file=$HOME/.ssh/id_rsa" \
+    -e"ansible_user=${OCP_USERNAME}" \
+    -e"ocp_username=${OCP_USERNAME}" \
+    -e"ocp_workload=${WORKLOAD}" \
+    -e"silent=False" \
+    -e"guid=${GUID}" \
+    -e"ACTION=create"
 ```
 
-### Access info for the workshop
-Your workshop attendees will need user accounts in the OpenShift cluster.
+## Access Info
+> Make sure you provisioned the workshop using RHPDS or ran the AgnosticD role on the cluster.
 
-Now give this URL (or preferably a shortened version) to your workshop attendees:
->`echo https://service-mesh-workshop-homeroom.$CLUSTER_SUBDOMAIN`
-
-#### Optional
-Deploy a Username Distribution app for generating student IDs - this is especially handy for virtual workshops.
-```bash
-NUM_USERS=<number of workshop users>
-
-oc process -f https://raw.githubusercontent.com/redhatgov/username-distribution/master/openshift/app-ephemeral.json \
-    --param LAB_USER_PREFIX=user \
-    --param LAB_USER_COUNT=$NUM_USERS \
-    --param LAB_MODULE_URLS='https://service-mesh-workshop-homeroom.$CLUSTER_SUBDOMAIN;Workshop Dashboard' | oc apply -n homeroom -f -
-```
-
-Once this is deployed, give this URL to workshop attendees: 
+Give this URL to workshop attendees: 
 ```
 echo https://username-distribution-homeroom.$CLUSTER_SUBDOMAIN
 ```
 
-They'll need to enter a valid email address and the workshop password specified by the `LAB_USER_ACCESS_TOKEN` environment variable, for which the default is **redhatlabs**.
+They'll need to enter a valid email address and the workshop password specified by the `LAB_USER_ACCESS_TOKEN` environment variable, for which the default is **redhatlabs**.  Once logged in, they'll be given a user account and a link to the workshop.
 
 You can perform administrative actions by visiting `/admin` in the `username-distribution` app. You'll need to enter `admin` as a username and the value of the `LAB_ADMIN_PASS` environment variable, for which the default is **pleasechangethis**, as a password.
 
-## Cleaning up after the workshop
-As long as no one else is running a homeroom workshop in the same cluster, you can clean up with the following:
->`oc delete project homeroom`
+For direct access to the workshop, you can navigate to:
+```
+echo https://service-mesh-workshop-homeroom.$CLUSTER_SUBDOMAIN
+```
+
+## Clean Up
+Delete the RHPDS cluster once you are done running the workshop
