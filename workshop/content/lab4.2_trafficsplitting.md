@@ -353,6 +353,18 @@ You should see the following:
 
 <br>
 
+<blockquote>
+<i class="fa fa-terminal"></i>
+Revert the changes you made before ending this lab.
+</blockquote>
+
+```execute
+oc apply -f ./config/istio/destinationrules-all.yaml
+oc apply -f ./config/istio/virtual-services-default.yaml
+```
+
+<br>
+
 ## Summary
 
 Congratulations, you configured traffic splitting in Istio!
