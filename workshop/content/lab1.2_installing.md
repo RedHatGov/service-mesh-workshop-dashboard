@@ -67,12 +67,55 @@ Output (sample):
 
 ```
 NAME                                    READY   STATUS    RESTARTS   AGE
-rhsso-operator-xxxxxxxxx-xxxxx          1/1     Running   0          15h
+app-ui-1-build                          0/1     Completed   0        15h
+app-ui-1-deploy                         0/1     Completed   0        15h
+app-ui-1-xxxxx                          2/2     Running     0        15h
+boards-1-xxxxx                          2/2     Running     0        15h
+boards-1-build                          0/1     Completed   0        15h
+boards-1-deploy                         0/1     Completed   0        15h
+boards-mongodb-1-deploy                 0/1     Completed   0        15h
+boards-mongodb-1-xxxxx                  2/2     Running     0        15h
+context-scraper-1-build                 0/1     Completed   0        15h
+context-scraper-1-deploy                0/1     Completed   0        15h
+context-scraper-1-xxxxx                 2/2     Running     0        15h
+rhsso-operator-xxxxxxxxx-xxxxx          1/1     Running     0        15h
+userprofile-1.0-1-build                 0/1     Completed   0        15h
+userprofile-xxxxxxxxxx-xxxxx            2/2     Running     0        15h
+userprofile-postgresql-1-deploy         0/1     Completed   0        15h
+userprofile-postgresql-1-xxxxx          2/2     Running     0        15h
 ```
 
-The RH-SSO operator will be used later in the security labs.
+<br>
+
+To access the application, you need the endpoint of your load balancer.
+
+<blockquote>
+<i class="fa fa-terminal"></i>
+Retrieve the URL of the load balancer:
+</blockquote>
+
+```execute
+GATEWAY_URL=$(oc get route istio-ingressgateway -n %username%-istio --template='http://{{.spec.host}}')
+echo $GATEWAY_URL
+```
+
+<blockquote>
+<i class="fa fa-desktop"></i>
+Navigate to this URL in a new browser tab.  For example:
+</blockquote>
+
+```
+http://istio-ingressgateway-userx-istio.apps.cluster-naa-xxxx.naa-xxxx.example.opentlc.com:6443
+```
 
 <br>
+
+You should see the application user interface.  Try creating a new board and posting to the shared board.
+
+For example:
+
+<img src="images/app-pasteboard.png" width="1024"><br/>
+ *Create a new board*
 
 ## Application Code
 Next we need a local copy of our application code.
