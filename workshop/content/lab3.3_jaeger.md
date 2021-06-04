@@ -12,7 +12,7 @@ Open the Jaeger console. Retrieve the endpoint for Jaeger:
 </blockquote>
 
 ```execute
-echo $(oc get route jaeger -n istio-system --template='https://{{.spec.host}}')
+echo $(oc get route jaeger -n %username%-istio --template='https://{{.spec.host}}')
 ```
 
 Click 'Allow selected permissions' if prompted to authorized access.

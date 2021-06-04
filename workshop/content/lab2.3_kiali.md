@@ -35,7 +35,7 @@ Now let's open the Kiali console.  Retrieve the endpoint for Kiali:
 
 
 ```execute
-echo $(oc get route kiali -n istio-system --template='https://{{.spec.host}}')
+echo $(oc get route kiali -n %username%-istio --template='https://{{.spec.host}}')
 ```
 
 Output (sample):
