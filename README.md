@@ -28,7 +28,7 @@ export WORKLOAD="ocp4_workload_servicemesh_workshop"
 export GUID=example     # example: b454
 ```
 
-3. Run AgnosticD  (use my fork: https://github.com/theckang/agnosticd/tree/servicemesh-workshop)
+3. Run AgnosticD (use the development branch)
 
 ```bash
 ansible-playbook -i ${TARGET_HOST}, ./configs/ocp-workloads/ocp-workload.yml \
