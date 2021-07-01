@@ -25,7 +25,8 @@ Please see [agnosticd repo](https://github.com/redhat-cop/agnosticd) if you need
 export TARGET_HOST=changeme     # example: bastion.b454.sandbox1682.opentlc.com
 export OCP_USERNAME=changeme
 export WORKLOAD="ocp4_workload_servicemesh_workshop"
-export GUID=example     # example: b454
+export GUID=example             # example: b454
+export USER_COUNT=5             # number of users for the workshop
 ```
 
 3. Run AgnosticD (use the development branch)
@@ -38,6 +39,7 @@ ansible-playbook -i ${TARGET_HOST}, ./configs/ocp-workloads/ocp-workload.yml \
     -e"ocp_workload=${WORKLOAD}" \
     -e"silent=False" \
     -e"guid=${GUID}" \
+    -e"num_users=${USER_COUNT}" \
     -e"ACTION=create"
 ```
 
