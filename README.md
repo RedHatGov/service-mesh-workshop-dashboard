@@ -11,7 +11,10 @@ The TL;DR of homeroom is that we build all these labs into a website, stuff that
 
 ### Order from RHPDS
 
-TBD
+In the catalog, navigate to [All Services] -> [Openshift Workshop] -> [OpenShift Service Mesh 2 Workshop]
+
+Make sure to set `Number of Users` to the number of expected participants in your workshop.
+
 
 ### AgnosticD Deployment
 
