@@ -6,7 +6,16 @@ Istio provides [Kiali][1], an open source project that gives you a console view 
 
 ## Explore Kiali
 
-First, let's send some load to the application.
+Ensure Kiali can view your deployments:
+
+```execute
+oc get cm kiali -n %username%-istio -o yaml | sed '/DeploymentConfig/d' | oc apply -n %username%-istio -f -
+oc rollout restart deployment kiali -n %username%-istio
+```
+
+<br>
+
+Let's send some load to the application.
 
 <blockquote>
 <i class="fa fa-terminal"></i>
