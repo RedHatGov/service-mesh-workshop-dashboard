@@ -149,7 +149,7 @@ Run the following in the CLI:
 
 ```execute
 SSO_SVC=$(oc get route keycloak --template='{{.spec.host}}')
-oc set env dc/app-ui FAKE_USER=false SSO_SVC_HOST=$SSO_SVC
+oc set env dc/app-ui NODE_TLS_REJECT_UNAUTHORIZED=0 FAKE_USER=false SSO_SVC_HOST=$SSO_SVC
 ```
 
 <br/>
