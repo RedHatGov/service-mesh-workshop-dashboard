@@ -112,7 +112,7 @@ Verify the virtual services:
 </blockquote>
 
 ```execute
-oc get vs
+oc get virtualservice
 ```
 
 Output (sample):
@@ -224,7 +224,7 @@ Verify the change:
 </blockquote>
 
 ```execute
-oc describe vs userprofile
+oc describe virtualservice userprofile
 ```
 
 Output (snippet):

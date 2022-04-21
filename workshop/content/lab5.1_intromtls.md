@@ -1,5 +1,5 @@
 # Mutual TLS
-One of the key features of the Service Mesh is its ability to bring additional security to your applications. It does this in a several different ways that will be explored in the next few labs. The first of which is a concept known as "Mutual TLS" or mTLS for short.
+One of the key features of the Service Mesh is its ability to bring additional security to your applications. It does this in several different ways that will be explored in the next few labs. The first of which is a concept known as "Mutual TLS" or mTLS for short.
 
 Imagine a scenario where you are deploying a microservices application and are expecting a lot of PII to flow between the services. In that scenario there are probably all sorts of security requirements to adhere to. One big requirement that's typical (and could cause a lot of consternation on the development/operations team) is to encrypt all service communications. That's going to mean managing and exchanging SSL keys, validating and authenticating, encrypting and decrypting network traffic, and figuring out how to do it in each application stack (Node.js, Java, Go, etc.).
 

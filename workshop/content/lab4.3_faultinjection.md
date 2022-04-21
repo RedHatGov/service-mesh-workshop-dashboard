@@ -66,7 +66,7 @@ Switch to the 'Versioned app graph' view and change to 'Last 1m'.
 </blockquote>
 <blockquote>
 <i class="fa fa-desktop"></i>
-Change the 'No edge labels' dropdown to 'Requests percentage'
+Change the 'No edge labels' dropdown to 'Request Distribution'
 </blockquote>
 
 <blockquote>

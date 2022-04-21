@@ -189,7 +189,7 @@ Switch to the 'Versioned app graph' view and change to 'Last 1m'.
 </blockquote>
 <blockquote>
 <i class="fa fa-desktop"></i>
-Change the 'No edge labels' dropdown to 'Requests percentage'.  
+Change the 'No edge labels' dropdown to 'Request Distribution'.  
 </blockquote>
 
 The traffic splits between versions 1 and 3 of the user profile service at roughly 90% and 10% split.
@@ -259,7 +259,7 @@ Navigate to 'Graph' in the left navigation bar.
 </blockquote>
 <blockquote>
 <i class="fa fa-desktop"></i>
-Switch to the 'Versioned app graph' view.  Change the 'No edge labels' dropdown to 'Requests percentage'.  
+Switch to the 'Versioned app graph' view.  Change the 'No edge labels' dropdown to 'Request Distribution'.  
 </blockquote>
 
 You should see a roughly 50/50 percentage split between versions 1 and 3 of the user profile service.
@@ -320,7 +320,7 @@ Navigate to 'Graph' in the left navigation bar.
 </blockquote>
 <blockquote>
 <i class="fa fa-desktop"></i>
-Switch to the 'Versioned app graph' view.  Change the 'No edge labels' dropdown to 'Requests percentage'.  
+Switch to the 'Versioned app graph' view.  Change the 'No edge labels' dropdown to 'Request Distribution'.  
 </blockquote>
 
 
