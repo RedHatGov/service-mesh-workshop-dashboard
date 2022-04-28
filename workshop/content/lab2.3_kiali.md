@@ -87,13 +87,13 @@ You can inspect information about the traffic being sent between the services vi
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Click 'Display' and switch to 'Requests per second' under 'Show Edge Labels'.
+Click 'Display' and switch to 'Request Rate' under 'Show Edge Labels'.
 </blockquote>
 
 You can now see HTTP traffic information between the microservices.
 
 <img src="images/kiali-rpsgraph.png" width="1024"><br/>
-*Kiali Graph with Requests Per Second*
+*Kiali Graph with Request Rate*
 
 Let's take a look at the microservices running in your service mesh.  
 

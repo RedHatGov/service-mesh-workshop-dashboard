@@ -92,7 +92,7 @@ Navigate to 'Graph' in the left navigation bar.
 
 <blockquote>
 <i class="fa fa-desktop"></i>
-Switch to the 'Versioned app graph' view and change to 'Last 1m'.  Change the 'No edge labels' dropdown to 'Requests percentage'.  
+Switch to the 'Versioned app graph' view and change to 'Last 1m'.  Change the 'No edge labels' dropdown to 'Request Distribution'.  
 </blockquote>
 
 <img src="images/kiali-circuitbreaking.png" width="1024"><br/>
